@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+	    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        {% block stylesheets %}
+        	<style>
+        		.hide {
+        			display: none;
+        		}
+        	</style>
+        {% endblock %}
+    </head>
+    <body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			<a class="navbar-brand" href="{{ path('home') }}">Accueil</a>
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarColor01">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('blog') }}">Articles</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('contact_api') }}">API for contact management</a>
+					</li>
+					{% if not app.user %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
+	        {% block body %}{% endblock %}
+		</div>
+        {% block javascripts %}
+
+        	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        	<script>
+
+        	$(".js-like").click(function(event){
+        		event.preventDefault();
+        		countElement = $(this).find("span").first();
+        		thumpsElement = $(this).children(":first");
+        		$.ajax({
+        			url: this.href,
+        			type: "GET",
+        			success: function(response){
+
+        				if (response.code == 403) {
+        					alert(response.message);
+        					return false;
+        				}
+
+        				countElement.text(response.likes);
+
+        				if (thumpsElement.hasClass("far")) {
+        					thumpsElement.removeClass("far");
+        					thumpsElement.addClass("fas");
+        				} else {
+        					thumpsElement.removeClass("fas");
+        					thumpsElement.addClass("far");
+        				}
+        			},
+        		});
+        	});
+
+        	</script>
+        {% endblock %}
+    </body>
+</html>

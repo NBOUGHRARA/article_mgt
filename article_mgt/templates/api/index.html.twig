@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact management !{% endblock %}
+
+{% block body %}
+	<br>
+	<h1 style="text-align:center">Gestion des contacts</h1>
+	<br>
+	<div id="Grid_table"></div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+	<script>
+
+		$(document).ready(function(){
+			$("#Grid_table").jsGrid({
+
+				width: "100%",
+				height: "500px",
+
+				filtering: true,
+				inserting:true,
+				editing: true,
+				sorting: true,
+				paging: true,
+				autoload: true,
+				pageSize: 20,
+				pageButtonCount: 5,
+				deleteConfirm: "Voulez-vous vraiments supprimer ce contact?",
+
+				controller : {
+					loadData : function(filter){
+						return $.ajax({
+							type: "GET",
+							url: "api/contacts",
+							data: filter
+						});
+					},
+
+					insertItem : function(item){
+						return $.ajax({
+							type: "POST",
+							url: "{{ path('add_contact') }}",
+							data:item
+						});
+					},
+
+					updateItem: function(item){
+						console.log(item);
+						return $.ajax({
+							type: "PUT",
+							url: "{{ path('add_contact') }}",
+							data: item
+						});
+					},
+
+					deleteItem: function(item){
+						return $.ajax({
+							type: "DELETE",
+							url: "{{ path('delete_contact') }}",
+							data: item
+						});
+					},
+				},
+
+				fields : [
+					{
+						name: "id",
+						type: "hidden",
+						css: 'hide'
+					},
+					{
+						name: "nom",
+						type: "text",
+						validate: "required"
+					},
+					{
+						name: "prenom",
+						type: "text",
+						validate: "required"
+					},
+					{
+						name: "telephone",
+						type: "text",
+						validate: "required"
+					},
+					{
+						name: "email",
+						type: "text",
+						validate: "required"
+					},
+					{
+						type: "control"
+					}
+				]
+			});
+		});	
+	
+	</script>
+{% endblock %}
