@@ -22,7 +22,7 @@ Exécuter les fictures (fake data)
 * php bin/console doctrine:fixtures:load --no-interaction
 
 Lancer le serveur 
-php -S 127.0.0.1:8000 -t public
+* php -S 127.0.0.1:8000 -t public
 
 
 #Enjoy
