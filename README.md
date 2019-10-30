@@ -2,26 +2,26 @@
 
 # Installation
 
-Cloner le dépot
-* run: git clone https://github.com/NBOUGHRARA/article_mgt.git
+Cloner le dépot:
+* git clone https://github.com/NBOUGHRARA/article_mgt.git
 
 * cd article_mgt
 
-Installer les dépendances 
+Installer les dépendances:
 * composer install
 
 modifier le fichier .env avec le user et le password de votre base de donnée
 
-Créer les bases de données 
+Créer les bases de donnée:
 * php bin/console doctrine:database:create
 
-Exécuter les mogrations
+Exécuter les mogrations:
 * php bin/console doctrine:migrations:migrate
 
-Exécuter les fictures (fake data)
+Exécuter les fictures (fake data):
 * php bin/console doctrine:fixtures:load --no-interaction
 
-Lancer le serveur 
+Lancer le serveur:
 * php -S 127.0.0.1:8000 -t public
 
 
